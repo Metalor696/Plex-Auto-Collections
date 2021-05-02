@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 from urllib.request import Request
 from urllib.request import urlopen
 from urllib.parse import urlparse
+from urllib.parse import urljoin
 from tmdbv3api import TMDb
 from tmdbv3api import Movie as TMDb_Movie
 import os
@@ -366,7 +367,8 @@ def delete_collection(data):
         print("| Collection deleted")
 
 def alt_id_lookup(plex, movie):
-    req = Request('{}{}'.format(plex.url, movie.key))
+    url_key_join = urljoin(plex.url, movie.key)
+    req = Request(url_key_join)
     req.add_header('X-Plex-Token', plex.token)
     req.add_header('User-Agent', 'Mozilla/5.0')
     with urlopen(req) as response:
